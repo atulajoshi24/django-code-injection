@@ -1,0 +1,28 @@
+{% extends "vulnapp/base.html" %}
+{% block content %}
+<h1>Fixed Calculator (AST whitelist)</h1>
+<p>Same feature as the vulnerable calculator, but the expression is parsed
+with Python's <code>ast</code> module and only numeric literals plus
+<code>+ - * / // % **</code> are allowed. No names, no calls, no attribute
+access - so there is nothing an attacker can use to escape.</p>
+
+<form method="get">
+  <label for="expression">Expression:</label>
+  <input type="text" id="expression" name="expression" value="{{ expression }}" autofocus>
+  <button type="submit">Evaluate</button>
+</form>
+
+{% if result is not None %}
+  <div class="result">Result: {{ result }}</div>
+{% endif %}
+{% if error %}
+  <div class="error">Error: {{ error }}</div>
+{% endif %}
+
+<h3>Try the same payloads as before</h3>
+<ul class="payloads">
+  <li><code>2 + 2</code> - still works</li>
+  <li><code>__import__('os').getcwd()</code> - now rejected</li>
+  <li><code>__import__('os').popen('whoami').read()</code> - now rejected</li>
+</ul>
+{% endblock %}

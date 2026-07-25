@@ -1,0 +1,18 @@
+{% extends "vulnapp/base.html" %}
+{% block content %}
+<h1>Code Injection (CWE-94) Teaching Demo</h1>
+<p>This app demonstrates how <code>eval()</code> and <code>exec()</code> on
+untrusted input let an attacker run arbitrary Python on the server.</p>
+<ul>
+  <li><a href="{% url 'vulnerable_calculator' %}">Vulnerable calculator</a> -
+      a "calculator" built on <code>eval()</code>.</li>
+  <li><a href="{% url 'safe_calculator' %}">Fixed calculator</a> -
+      the same feature, rebuilt safely with an AST whitelist.</li>
+  <li><a href="{% url 'vulnerable_runner' %}">Vulnerable runner</a> -
+      a "run some Python" box built on <code>exec()</code>.</li>
+</ul>
+<p class="warning">
+  Run this only on your own machine, offline. These pages let visitors
+  execute arbitrary code on the server they're pointed at.
+</p>
+{% endblock %}

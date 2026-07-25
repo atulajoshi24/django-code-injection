@@ -1,0 +1,12 @@
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 25, 2026 - 16:57:05
+Django version 4.2.18, using settings 'codeinjection_demo.settings'
+Starting development server at http://127.0.0.1:8765/
+Quit the server with CTRL-BREAK.
+
+[25/Jul/2026 16:57:06] "GET /calculator/?expression=2+%2B+2 HTTP/1.1" 200 2062
+[25/Jul/2026 16:57:06] "GET /calculator/safe/?expression=__import__('os').getcwd() HTTP/1.1" 200 2032
+[25/Jul/2026 16:57:16] "GET /calculator/?expression=__import__('os').getcwd() HTTP/1.1" 200 2186
+[25/Jul/2026 16:57:16] "POST /runner/ HTTP/1.1" 200 2730

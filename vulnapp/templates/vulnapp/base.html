@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Code Injection Demo{% endblock %}</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 2rem auto; padding: 0 1rem; color: #222; }
+    nav a { margin-right: 1rem; }
+    input[type=text], textarea { width: 100%; font-family: monospace; font-size: 1rem; padding: .5rem; box-sizing: border-box; }
+    textarea { height: 8rem; }
+    button { padding: .5rem 1rem; margin-top: .5rem; }
+    .result { background: #eef; padding: .75rem; margin-top: 1rem; white-space: pre-wrap; }
+    .error { background: #fee; padding: .75rem; margin-top: 1rem; white-space: pre-wrap; color: #900; }
+    .warning { background: #fff3cd; border: 1px solid #ffe69c; padding: .75rem; margin-bottom: 1rem; }
+    code { background: #f4f4f4; padding: .1rem .3rem; }
+    .payloads li { margin-bottom: .35rem; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'vulnerable_calculator' %}">Vulnerable calculator (eval)</a>
+    <a href="{% url 'safe_calculator' %}">Fixed calculator</a>
+    <a href="{% url 'vulnerable_runner' %}">Vulnerable runner (exec)</a>
+  </nav>
+  <hr>
+  {% block content %}{% endblock %}
+</body>
+</html>
