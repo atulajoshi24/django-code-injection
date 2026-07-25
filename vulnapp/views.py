@@ -1,16 +1,4 @@
-"""
-Teaching demo: Code Injection (CWE-94) via eval()/exec().
 
-This module intentionally contains vulnerable code so students can see,
-exploit, and then fix a real code-injection bug. Each view is documented
-with what makes it dangerous and, where relevant, a fixed counterpart.
-
-SAFETY: Only run this on your own machine, offline, for a classroom demo.
-eval()/exec() on user input allow full arbitrary code execution on the
-server (read/write files, spawn processes, exfiltrate secrets, etc.) -
-never deploy this code, even temporarily, on a host reachable by anyone
-else.
-"""
 import ast
 import io
 import contextlib
@@ -26,29 +14,7 @@ def home(request):
 # 1) VULNERABLE: eval() used to implement a "calculator"
 # ---------------------------------------------------------------------------
 def vulnerable_calculator(request):
-    """
-    Takes a math expression from the user and evaluates it with eval().
-
-    Why it's vulnerable:
-    eval() doesn't just do arithmetic - it runs *any* Python expression,
-    including attribute access and function calls. Because Python lets you
-    reach almost any object from builtins, a user-supplied string like:
-
-        __import__('os').system('whoami')
-
-    or, if __builtins__ has been stripped naively:
-
-        ().__class__.__base__.__subclasses__()
-
-    can be used to escape the "calculator" sandbox entirely and run
-    arbitrary commands on the server.
-
-    Try these in the input box:
-        2 + 2
-        __import__('os').getcwd()
-        __import__('os').popen('whoami').read()
-        [x for x in ().__class__.__base__.__subclasses__() if 'Popen' in str(x)]
-    """
+    
     expression = request.GET.get("expression", "")
     result = None
     error = None
@@ -137,34 +103,19 @@ def safe_calculator(request):
 # 3) VULNERABLE: exec() used to run a user-supplied "script"
 # ---------------------------------------------------------------------------
 def vulnerable_runner(request):
-    """
-    Runs arbitrary user-supplied Python statements with exec().
 
-    Why it's vulnerable:
-    exec() runs full statements, not just expressions - imports, file I/O,
-    process spawning, infinite loops, everything. There is effectively no
-    safe way to sandbox exec()/eval() against a determined attacker from
-    pure Python; the only real fix is to not run untrusted code at all, or
-    to isolate it in a properly sandboxed environment (separate process,
-    container, gVisor/Firecracker, seccomp, etc.) with no access to
-    secrets or the network.
-
-    Try this in the textarea:
-        import os
-        print(os.getcwd())
-        print(os.listdir('.'))
-    """
     code = request.POST.get("code", "")
     output = None
     error = None
+    print(f"code {code}")
 
     if request.method == "POST" and code:
-        buffer = io.StringIO()
         try:
-            with contextlib.redirect_stdout(buffer):
-                # VULNERABLE LINE: exec() on raw, untrusted user input.
-                exec(code)
-            output = buffer.getvalue()
+            print('executing ')
+            # VULNERABLE LINE: exec() on raw, untrusted user input.
+            local_vars = {}
+            exec(code, {}, local_vars)          # <-- DANGEROUS
+            print(f"Local vars after exec: {local_vars}")
         except Exception as exc:  # noqa: BLE001 - demo only
             error = f"{type(exc).__name__}: {exc}"
 

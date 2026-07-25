@@ -8,8 +8,6 @@ untrusted input let an attacker run arbitrary Python on the server.</p>
       a "calculator" built on <code>eval()</code>.</li>
   <li><a href="{% url 'safe_calculator' %}">Fixed calculator</a> -
       the same feature, rebuilt safely with an AST whitelist.</li>
-  <li><a href="{% url 'vulnerable_runner' %}">Vulnerable runner</a> -
-      a "run some Python" box built on <code>exec()</code>.</li>
 </ul>
 <p class="warning">
   Run this only on your own machine, offline. These pages let visitors

@@ -19,14 +19,7 @@
   <div class="error">Error: {{ error }}</div>
 {% endif %}
 
-<h3>Try these payloads</h3>
-<ul class="payloads">
-  <li><code>2 + 2</code> - looks like ordinary calculator use</li>
-  <li><code>__import__('os').getcwd()</code> - reach outside "math" entirely</li>
-  <li><code>__import__('os').popen('whoami').read()</code> - run an OS command</li>
-  <li><code>__import__('os').listdir('.')</code> - list server files</li>
-</ul>
 
-<p>Compare with the <a href="{% url 'safe_calculator' %}">fixed version</a>,
-which rejects every payload above.</p>
+
+<p>Compare with the <a href="{% url 'safe_calculator' %}">fixed version</a></p>
 {% endblock %}
