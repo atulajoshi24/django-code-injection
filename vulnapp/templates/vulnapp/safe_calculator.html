@@ -1,10 +1,5 @@
 {% extends "vulnapp/base.html" %}
 {% block content %}
-<h1>Fixed Calculator (AST whitelist)</h1>
-<p>Same feature as the vulnerable calculator, but the expression is parsed
-with Python's <code>ast</code> module and only numeric literals plus
-<code>+ - * / // % **</code> are allowed. No names, no calls, no attribute
-access - so there is nothing an attacker can use to escape.</p>
 
 <form method="get">
   <label for="expression">Expression:</label>

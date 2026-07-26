@@ -1,10 +1,6 @@
 {% extends "vulnapp/base.html" %}
 {% block content %}
 <h1>Vulnerable Calculator (eval)</h1>
-<div class="warning">
-  This form passes your input straight into Python's <code>eval()</code>.
-  It is NOT a real calculator sandbox - it will run any Python expression.
-</div>
 
 <form method="get">
   <label for="expression">Expression:</label>
